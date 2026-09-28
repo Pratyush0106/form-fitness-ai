@@ -1,0 +1,6 @@
+import fs from 'node:fs';
+import {deflateSync} from 'node:zlib';
+// Rasterize the app's simple geometric F mark for Android and Apple launchers.
+function crc(bytes){let n=0xffffffff;for(const byte of bytes){n^=byte;for(let i=0;i<8;i++)n=(n>>>1)^((n&1)?0xedb88320:0)}return (n^0xffffffff)>>>0}
+function chunk(type,data){const name=Buffer.from(type),out=Buffer.alloc(data.length+12);out.writeUInt32BE(data.length);name.copy(out,4);data.copy(out,8);out.writeUInt32BE(crc(Buffer.concat([name,data])),data.length+8);return out}
+for(const size of [192,512]){const pixels=Buffer.alloc((size*3+1)*size);for(let y=0;y<size;y++)for(let x=0;x<size;x++){const X=x/size*512,Y=y/size*512;const square=X>=64&&X<448&&Y>=64&&Y<448;const letter=X>=164&&X<228&&Y>=144&&Y<368||X>=164&&X<364&&Y>=144&&Y<208||X>=164&&X<340&&Y>=240&&Y<304;const color=letter?[23,37,11]:square?[199,243,107]:[16,21,17];pixels.set(color,y*(size*3+1)+1+x*3)}const header=Buffer.alloc(13);header.writeUInt32BE(size);header.writeUInt32BE(size,4);header[8]=8;header[9]=2;fs.writeFileSync(new URL(`../public/app-icon-${size}.png`,import.meta.url),Buffer.concat([Buffer.from([137,80,78,71,13,10,26,10]),chunk('IHDR',header),chunk('IDAT',deflateSync(pixels)),chunk('IEND',Buffer.alloc(0))]))}

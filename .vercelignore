@@ -1,0 +1,10 @@
+node_modules
+private-data
+.env
+.env.*
+tests
+work
+exercises.js
+exercises.json
+app.js
+styles.css
