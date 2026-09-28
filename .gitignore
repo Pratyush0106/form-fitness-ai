@@ -25,3 +25,4 @@ coverage/
 /exercises.json
 .DS_Store
 Thumbs.db
+.vercel-cli-home/

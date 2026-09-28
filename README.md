@@ -59,6 +59,7 @@ Copy `.env.example` to `.env` and enter only the services you want to enable.
 | `JWT_SECRET` | Random value of at least 32 characters |
 | `DATABASE_URL` | PostgreSQL connection string; required in production |
 | `DATABASE_SSL` | Set `true` when the database requires verified TLS |
+| `ALLOW_EPHEMERAL_SQLITE` | Temporary demo-only fallback when no hosted Postgres is available |
 | `PUBLIC_ORIGIN` | Exact deployed HTTPS origin used for request-origin checks |
 | `TRUST_PROXY` | Set `1` behind a trusted reverse proxy |
 | `FIREBASE_*` | Optional Firebase web and Admin credentials for OAuth |
